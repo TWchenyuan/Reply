@@ -6,6 +6,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.material3.windowsizeclass.ExperimentalMaterial3WindowSizeClassApi
+import androidx.compose.material3.windowsizeclass.calculateWindowSizeClass
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.remember
+import androidx.lifecycle.compose.collectAsStateWithLifecycle
+import com.google.accompanist.adaptive.calculateDisplayFeatures
 import com.thoughtworks.training.reply.ui.theme.ContrastAwareReplyTheme
 
 class MainActivity : ComponentActivity() {
@@ -19,7 +24,12 @@ class MainActivity : ComponentActivity() {
 
         setContent {
             ContrastAwareReplyTheme {
-                // TODO
+                val replyHomeUIState by viewModel.replyHomeUIState.collectAsStateWithLifecycle()
+                ReplyApp(
+                    windowSize = calculateWindowSizeClass(activity = this),
+                    displayFeatures = calculateDisplayFeatures(activity = this),
+                    replyHomeUIState = replyHomeUIState
+                )
             }
         }
     }
