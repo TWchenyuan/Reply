@@ -33,6 +33,10 @@ fun ModalNavigationDrawerContent(
 ) {
     // TODO
 }
+@Composable
+fun ReplyBottomNavigationBar() {
+
+}
 
 enum class LayoutType {
     HEADER, CONTENT
