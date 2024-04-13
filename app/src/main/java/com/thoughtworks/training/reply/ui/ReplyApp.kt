@@ -8,6 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.windowsizeclass.WindowSizeClass
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
 import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
@@ -15,6 +16,7 @@ import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.window.layout.DisplayFeature
 import com.thoughtworks.training.reply.ui.navigation.ReplyBottomNavigationBar
+import com.thoughtworks.training.reply.ui.navigation.ReplyNavigationActions
 import com.thoughtworks.training.reply.ui.navigation.ReplyRoute
 import com.thoughtworks.training.reply.ui.navigation.ReplyTopLevelDestination
 import com.thoughtworks.training.reply.ui.utils.ReplyContentType
@@ -56,6 +58,7 @@ private fun ReplyNavigationWrapper(
     toggleSelectedEmail: (Long) -> Unit,
 ) {
     val navController = rememberNavController()
+    val navigationActions = remember(navController) { ReplyNavigationActions(navController) }
     val selectedDestination = ReplyRoute.INBOX
     ReplyAppContent(
         navigationType = navigationType,
@@ -65,11 +68,7 @@ private fun ReplyNavigationWrapper(
         replyHomeUIState = replyHomeUIState,
         navController = navController,
         selectedDestination = selectedDestination,
-        navigateToTopLevelDestination = { replyTopLevelDestination ->
-            navController.navigate(
-                replyTopLevelDestination.route
-            )
-        },
+        navigateToTopLevelDestination = navigationActions::navigateTo,
         closeDetailScreen = closeDetailScreen,
         navigateToDetail = navigateToDetail,
         toggleSelectedEmail = toggleSelectedEmail

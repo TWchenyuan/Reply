@@ -21,13 +21,16 @@ data class ReplyTopLevelDestination(
     val route: String,
     val selectedIcon: ImageVector,
     val unselectedIcon: ImageVector,
-    val iconTextId: Int
+    val iconTextId: Int,
 )
 
 class ReplyNavigationActions(private val navController: NavHostController) {
 
     fun navigateTo(destination: ReplyTopLevelDestination) {
-        // TODO
+        navController.navigate(destination.route) {
+            launchSingleTop = true
+            restoreState = true
+        }
     }
 }
 
