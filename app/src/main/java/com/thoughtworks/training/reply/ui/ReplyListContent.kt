@@ -1,16 +1,24 @@
 package com.thoughtworks.training.reply.ui
 
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyListState
+import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.unit.dp
 import androidx.window.layout.DisplayFeature
 import com.thoughtworks.training.reply.data.Email
+import com.thoughtworks.training.reply.ui.components.ReplyEmailListItem
 import com.thoughtworks.training.reply.ui.utils.ReplyContentType
 import com.thoughtworks.training.reply.ui.utils.ReplyNavigationType
 
@@ -26,12 +34,18 @@ fun ReplyInboxScreen(
     toggleSelectedEmail: (Long) -> Unit,
     modifier: Modifier = Modifier,
 ) {
-    Column(
+    val emailLazyListState = rememberLazyListState()
+    Box(
         modifier = modifier.fillMaxSize(),
-        verticalArrangement = Arrangement.Center,
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "reply box")
+        ReplySinglePaneContent(
+            replyHomeUIState = replyHomeUIState,
+            toggleEmailSelection = toggleSelectedEmail,
+            emailLazyListState = emailLazyListState,
+            closeDetailScreen = closeDetailScreen,
+            navigateToDetail = navigateToDetail
+        )
+
     }
 }
 
@@ -44,7 +58,15 @@ fun ReplySinglePaneContent(
     closeDetailScreen: () -> Unit,
     navigateToDetail: (Long, ReplyContentType) -> Unit,
 ) {
-    // TODO
+    ReplyEmailList(
+        emails = replyHomeUIState.emails,
+        openedEmail = replyHomeUIState.openedEmail,
+        selectedEmailIds = replyHomeUIState.selectedEmails,
+        toggleEmailSelection = toggleEmailSelection,
+        emailLazyListState = emailLazyListState,
+        navigateToDetail = navigateToDetail,
+        modifier = modifier
+    )
 }
 
 @Composable
@@ -57,7 +79,20 @@ fun ReplyEmailList(
     modifier: Modifier = Modifier,
     navigateToDetail: (Long, ReplyContentType) -> Unit,
 ) {
-    // TODO
+
+    LazyColumn(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(top = 80.dp), state = emailLazyListState
+    ) {
+        items(items = emails, key = { it.id }) {
+            ReplyEmailListItem(
+                email = it,
+                navigateToDetail = { id -> navigateToDetail(id, ReplyContentType.SINGLE_PANE) },
+                toggleSelection = toggleEmailSelection
+            )
+        }
+    }
 }
 
 @Composable
