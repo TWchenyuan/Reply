@@ -91,7 +91,7 @@ fun ReplyEmailList(
             },
             modifier = Modifier
                 .fillMaxWidth()
-                .padding(top = 10.dp)
+                .padding(top = 10.dp, start = 10.dp, end = 10.dp)
         )
 
         LazyColumn(
