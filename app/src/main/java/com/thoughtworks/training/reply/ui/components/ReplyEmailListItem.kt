@@ -4,15 +4,21 @@ import androidx.compose.animation.ExperimentalAnimationApi
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
 import androidx.compose.foundation.combinedClickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Check
+import androidx.compose.material.icons.filled.StarBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -22,6 +28,7 @@ import androidx.compose.ui.draw.clip
 import androidx.compose.ui.input.pointer.PointerIcon.Companion.Text
 import androidx.compose.ui.semantics.selected
 import androidx.compose.ui.semantics.semantics
+import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.dp
 import com.thoughtworks.training.reply.data.Email
 
@@ -54,7 +61,41 @@ fun ReplyEmailListItem(
             else MaterialTheme.colorScheme.surfaceVariant
         )
     ) {
-        Text(text = email.body)
+        Column(
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(25.dp)
+        ) {
+            Row(modifier = Modifier.fillMaxWidth()) {
+                ReplyProfileImage(drawableResource = email.sender.avatar, description = "avatar")
+                Column(
+                    modifier = Modifier
+                        .weight(1f)
+                        .padding(start = 5.dp),
+                ) {
+                    Text(text = email.sender.fullName, style = MaterialTheme.typography.labelLarge)
+                    Text(text = email.createdAt, style = MaterialTheme.typography.labelLarge)
+                }
+                IconButton(
+                    modifier = Modifier
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.surfaceContainerHigh),
+                    onClick = { /*TODO*/ }) {
+                    Icon(
+                        imageVector = Icons.Default.StarBorder,
+                        contentDescription = "Star",
+                        tint = MaterialTheme.colorScheme.outline
+                    )
+                }
+            }
+            Text(text = email.subject, style = MaterialTheme.typography.bodyLarge)
+            Text(
+                text = email.body,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis,
+                style = MaterialTheme.typography.bodyMedium
+            )
+        }
     }
 }
 
