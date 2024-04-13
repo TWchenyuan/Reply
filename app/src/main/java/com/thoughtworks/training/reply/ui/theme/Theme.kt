@@ -1,4 +1,5 @@
 package com.thoughtworks.training.reply.ui.theme
+
 import android.app.Activity
 import android.os.Build
 import androidx.compose.foundation.isSystemInDarkTheme
@@ -248,15 +249,15 @@ fun isContrastAvailable(): Boolean {
 }
 
 @Composable
-fun selectSchemeForContrast(isDark: Boolean,): ColorScheme {
-   // TODO
-    return lightScheme
+fun selectSchemeForContrast(isDark: Boolean): ColorScheme {
+    return if (isDark) darkScheme else lightScheme
 }
+
 @Composable
 fun ContrastAwareReplyTheme(
     darkTheme: Boolean = isSystemInDarkTheme(),
     dynamicColor: Boolean = false,
-    content: @Composable() () -> Unit
+    content: @Composable() () -> Unit,
 ) {
     val replyColorScheme = when {
         dynamicColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S -> {
