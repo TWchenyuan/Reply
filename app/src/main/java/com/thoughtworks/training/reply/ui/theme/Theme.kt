@@ -2,6 +2,7 @@ package com.thoughtworks.training.reply.ui.theme
 
 import android.app.Activity
 import android.os.Build
+import android.util.Log
 import androidx.compose.foundation.isSystemInDarkTheme
 import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.MaterialTheme
@@ -265,7 +266,7 @@ fun ContrastAwareReplyTheme(
             if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
         }
 
-        else -> selectSchemeForContrast(true)
+        else -> selectSchemeForContrast(darkTheme)
     }
     val view = LocalView.current
     if (!view.isInEditMode) {
