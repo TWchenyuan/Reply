@@ -80,7 +80,7 @@ fun ReplyEmailList(
     modifier: Modifier = Modifier,
     navigateToDetail: (Long, ReplyContentType) -> Unit,
 ) {
-    Column(modifier = modifier.windowInsetsPadding(WindowInsets.statusBars)) {
+    Box(modifier = modifier.windowInsetsPadding(WindowInsets.statusBars)) {
         ReplyDockedSearchBar(
             emails,
             onSearchItemSelected = { email ->
